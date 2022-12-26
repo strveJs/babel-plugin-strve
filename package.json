@@ -1,0 +1,31 @@
+{
+	"name": "babel-plugin-strve",
+	"description": "A Babel plugin that compiles the template string in Strve.js into a normal object.",
+	"version": "0.1.0",
+	"main": "dist/babel-plugin-strve.js",
+	"module": "dist/babel-plugin-strve.mjs",
+	"scripts": {
+		"build": "microbundle src/index.mjs -f es,cjs --target node --no-compress --no-sourcemap",
+		"prepare": "npm run build"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/maomincoding/babel-plugin-strve.git"
+	},
+	"homepage": "https://github.com/maomincoding/babel-plugin-strve#readme",
+	"keywords": [
+		"Hyperscript Tagged Markup",
+		"tagged template",
+		"template literals",
+		"virtual dom",
+		"hyperscript",
+		"babel",
+		"babel plugin",
+		"babel-plugin"
+	],
+	"author": "maomincoding",
+	"license": "MIT",
+	"devDependencies": {
+		"microbundle": "^0.15.1"
+	}
+}
