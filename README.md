@@ -43,3 +43,9 @@ By default, `babel-plugin-strve` will process all Tagged Templates with a tag fu
   }]
 ]}
 ```
+
+## License
+
+[MIT](http://opensource.org/licenses/MIT)
+
+Copyright (c) 2022-present, maomincoding
