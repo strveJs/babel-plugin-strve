@@ -44,7 +44,7 @@ By default, `babel-plugin-strve` will process all Tagged Templates with a tag fu
 ]}
 ```
 
-### Other modes
+### other modes
 
 By default, `h``` will be used as a tag template mode. If there are other scenarios, you can choose to call the expression mode, there are two.
 

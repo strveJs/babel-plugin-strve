@@ -1,7 +1,7 @@
 {
   "name": "babel-plugin-strve",
   "description": "A Babel plugin that compiles the template string in Strve.js into a normal object.",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "main": "dist/babel-plugin-strve.js",
   "module": "dist/babel-plugin-strve.mjs",
   "scripts": {
