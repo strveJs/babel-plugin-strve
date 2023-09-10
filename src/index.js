@@ -2,7 +2,7 @@ import { treeify, build } from "./compile.js";
 /**
  * @param {Babel} babel
  * @param {object} options
- * @param {string} [options.tag=h]  The tagged template "tag" function name to process.
+ * @param {string} [options.tag=html]  The tagged template "tag" function name to process.
  */
 
 export default function strveBabelPlugin({ types: t }, options = {}) {
@@ -47,25 +47,38 @@ export default function strveBabelPlugin({ types: t }, options = {}) {
   }
 
   function createVNode(tag, props, children) {
-    if (
-      children.elements.length === 1 &&
-      t.isArrayExpression(children.elements[0]) &&
-      children.elements[0].elements.length === 0
-    ) {
+    if (children.elements.length === 1) {
       children = children.elements[0];
+    } else if (children.elements.length === 0) {
+      children = t.nullLiteral();
+    }
+
+    let key = null;
+    if (props && props.properties && Array.isArray(props.properties)) {
+      props.properties.forEach((item) => {
+        if (item.key.type === "StringLiteral" && item.key.value === "key") {
+          key = item.value;
+        } else if (item.key.type === "Identifier" && item.key.name === "key") {
+          key = item.value;
+        } else {
+          key = t.nullLiteral();
+        }
+      });
+    } else {
+      key = t.nullLiteral();
     }
 
     return t.objectExpression(
       [
-        false && t.objectProperty(propertyName("type"), t.numericLiteral(1)),
+        false,
         t.objectProperty(propertyName("tag"), tag),
         t.objectProperty(propertyName("props"), props),
         t.objectProperty(propertyName("children"), children),
-        false && t.objectProperty(propertyName("text"), t.nullLiteral()),
+        t.objectProperty(propertyName("key"), key),
+        t.objectProperty(propertyName("el"), t.nullLiteral()),
+        false,
       ].filter(Boolean)
     );
-
-    return t.callExpression(false, [tag, props].concat(children));
   }
 
   function spreadNode(args, state) {
@@ -118,7 +131,7 @@ export default function strveBabelPlugin({ types: t }, options = {}) {
     return createVNode(newTag, newProps, newChildren);
   }
 
-  const tagName = options.tag || "h";
+  const tagName = options.tag || "html";
   return {
     name: "strve",
     visitor: {

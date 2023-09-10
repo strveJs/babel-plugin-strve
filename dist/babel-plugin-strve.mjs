@@ -145,7 +145,7 @@ const build = function (statics) {
 /**
  * @param {Babel} babel
  * @param {object} options
- * @param {string} [options.tag=h]  The tagged template "tag" function name to process.
+ * @param {string} [options.tag=html]  The tagged template "tag" function name to process.
  */
 
 function strveBabelPlugin({
@@ -181,10 +181,26 @@ function strveBabelPlugin({
     return t.stringLiteral(str);
   }
   function createVNode(tag, props, children) {
-    if (children.elements.length === 1 && t.isArrayExpression(children.elements[0]) && children.elements[0].elements.length === 0) {
+    if (children.elements.length === 1) {
       children = children.elements[0];
+    } else if (children.elements.length === 0) {
+      children = t.nullLiteral();
     }
-    return t.objectExpression([false , t.objectProperty(propertyName("tag"), tag), t.objectProperty(propertyName("props"), props), t.objectProperty(propertyName("children"), children), false ].filter(Boolean));
+    let key = null;
+    if (props && props.properties && Array.isArray(props.properties)) {
+      props.properties.forEach(item => {
+        if (item.key.type === "StringLiteral" && item.key.value === "key") {
+          key = item.value;
+        } else if (item.key.type === "Identifier" && item.key.name === "key") {
+          key = item.value;
+        } else {
+          key = t.nullLiteral();
+        }
+      });
+    } else {
+      key = t.nullLiteral();
+    }
+    return t.objectExpression([false, t.objectProperty(propertyName("tag"), tag), t.objectProperty(propertyName("props"), props), t.objectProperty(propertyName("children"), children), t.objectProperty(propertyName("key"), key), t.objectProperty(propertyName("el"), t.nullLiteral()), false].filter(Boolean));
   }
   function spreadNode(args, state) {
     if (args.length === 0) {
@@ -227,7 +243,7 @@ function strveBabelPlugin({
     const newChildren = t.arrayExpression(children.map(child => transform(child, state)));
     return createVNode(newTag, newProps, newChildren);
   }
-  const tagName = options.tag || "h";
+  const tagName = options.tag || "html";
   return {
     name: "strve",
     visitor: {
