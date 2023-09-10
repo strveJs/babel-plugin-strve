@@ -2,22 +2,6 @@
 
 A Babel plugin that compiles the template string in Strve.js into a normal object.
 
-```js
-// input:
-const state = {
-	count: 0,
-};
-
-h`<h1 $key>${state.count}</h1>`;
-
-// output:
-{
-    children: [0],
-    props: {"$key": true},
-    tag: "h1"
-}
-```
-
 ## Usage
 
 In your Babel configuration (`.babelrc`, `babel.config.js`, `"babel"` field in package.json, etc), add the plugin:
@@ -32,9 +16,9 @@ In your Babel configuration (`.babelrc`, `babel.config.js`, `"babel"` field in p
 
 ### options
 
-#### `tag=h`
+#### `tag=html`
 
-By default, `babel-plugin-strve` will process all Tagged Templates with a tag function named `h`. To use a different name, use the `tag` option in your Babel configuration:
+By default, `babel-plugin-strve` will process all Tagged Templates with a tag function named `html`. To use a different name, use the `tag` option in your Babel configuration:
 
 ```js
 {"plugins":[
@@ -46,7 +30,7 @@ By default, `babel-plugin-strve` will process all Tagged Templates with a tag fu
 
 ### other modes
 
-By default, ` h`` ` will be used as a tag template mode. If there are other scenarios, you can choose to call the expression mode, there are two.
+By default, ` html`` ` will be used as a tag template mode. If there are other scenarios, you can choose to call the expression mode, there are two.
 
 1. The function name is `tem_h`, and the parameter is a template string.
 
