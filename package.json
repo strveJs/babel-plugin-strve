@@ -12,9 +12,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/maomincoding/babel-plugin-strve.git"
+    "url": "https://github.com/strveJs/babel-plugin-strve"
   },
-  "homepage": "https://github.com/maomincoding/babel-plugin-strve#readme",
+  "bugs": {
+    "url": "https://github.com/strveJs/babel-plugin-strve/issues"
+  },
+  "homepage": "https://github.com/strveJs/babel-plugin-strve#readme",
   "keywords": [
     "Hyperscript Tagged Markup",
     "tagged template",
